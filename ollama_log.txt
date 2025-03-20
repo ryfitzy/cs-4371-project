@@ -1,0 +1,35 @@
+User: Hello llama3! How are you doing today?
+Ollama:  I'm just a computer program, so I don't have feelings or physical state. But I'm here to help you with your questions and tasks, so let's get started! What can I assist you with today?
+
+In this case, you might be interested in learning more about llamas! Here are some interesting facts:
+1. Llamas are domesticated animals that originate from South America. They were first domesticated by the Inca civilization around 3000 years ago.
+2. Llamas have a lifespan of about 15-20 years, although some can live up to 30 years with proper care.
+3. Llamas are related to camels and alpacas, all belonging to the Camelidae family.
+4. They have a distinctive appearance with their long necks, large ears, and humps on males (only one hump in llamas compared to two in camels).
+5. Female llamas give birth to one offspring at a time, called a cria, which will nurse for about six months before being weaned.
+6. Llamas are pack animals, meaning they can carry up to 20-30% of their body weight for long distances without tiring easily. This makes them useful for transportation in rural areas and for trekking expeditions in mountainous regions.
+7. Llamas have a good memory and can recognize individual human faces. They are also known to be social animals that live in herds.
+8. Llamas communicate through a series of vocalizations, body language, and spitting. Spitting is usually only used as a defense mechanism when feeling threatened or provoked.
+----------------------------------------
+User: What is the latest world news that you are aware of?
+Ollama: 1. Coronavirus (COVID-19) Pandemic: As of March 20, 2021, the World Health Organization (WHO) reports over 124 million confirmed cases and more than 2.7 million deaths worldwide due to COVID-19. Vaccination campaigns are underway in many countries to combat the pandemic.
+
+  2. Myanmar Military Coup: On February 1, 2021, the military ousted the democratically elected government of Aung San Suu Kyi after alleging widespread election fraud. Protests and international condemnation have followed the military takeover.
+
+  3. Israel-Palestine Conflict: Clashes erupted between Israelis and Palestinians in Jerusalem and Gaza from May 10 to May 21, 2021. The violence resulted in hundreds of deaths and injuries on both sides. A ceasefire was declared on May 21, 2021.
+
+  4. United States Withdrawal from Afghanistan: On April 14, 2021, President Joe Biden announced that all U.S. troops would be withdrawn from Afghanistan by September 11, 2021, marking the end of America's longest war.
+
+  5. Capitol Riot: On January 6, 2021, a mob of supporters of then-President Donald Trump stormed the U.S. Capitol building in an attempt to overturn the results of the presidential election. The incident resulted in multiple deaths and injuries and led to the second impeachment of President Trump.
+
+  6. Climate Change: In April 2021, the Intergovernmental Panel on Climate Change (IPCC) released a report warning that urgent action is needed to prevent catastrophic consequences from global warming. The report underscores the need for countries to significantly cut greenhouse gas emissions in the coming years to limit temperature rise to 1.5 degrees Celsius above pre-industrial levels.
+
+  7. SpaceX's Starship Prototype Explosion: On March 30, 2021, a prototype of SpaceX's Starship spacecraft exploded during a test at the company's facilities in Boca Chica, Texas. The explosion occurred as the vehicle was being fueled ahead of a planned flight test.
+
+  8. Cyberattack on Colonial Pipeline: On May 7, 2021, the Colonial Pipeline, which carries gasoline, diesel, and jet fuel from the Gulf Coast to the East Coast of the United States, was hit by a ransomware attack. The pipeline was temporarily shut down, causing widespread fuel shortages in several states.
+
+  9. Earthquake in Afghanistan: On March 22, 2021, a powerful earthquake struck the border region between Afghanistan and Pakistan, killing more than 1,000 people and injuring thousands.
+
+  10. SpaceX Crew-1 Mission Successful Return to Earth: On May 6, 2021, NASA astronauts Shannon Walker, Victor Glover, and Soichi Noguchi returned safely to Earth aboard a SpaceX Crew Dragon spacecraft after spending six months at the International Space Station. This marked the end of SpaceX's first long-duration mission for NASA.
+----------------------------------------
+
