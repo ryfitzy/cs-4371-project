@@ -4,10 +4,20 @@
     <title>Demo Chat Example</title>
 </head>
 <body>
-    {{ form.prompt.label }}
+    <form action="{{ url_for('example.demo') }}" method=post>
+        <div>{{ form.prompt.label }}</div>
+        <div>{{ form.prompt }}</div>
+        <div>{{ form.models.label }}</div>
+        <div>{{ form.models }}</div>
+        <div>{{ form.submit }}</div>
+    </form>
 
-    {{ form.prompt }}
-    
-    {{ form.submit }}
+
+    {% if response %}
+    <div>Response:</div>
+    <pre>{{ response }}</pre>
+    {% endif %}
+
+
 </body>
 </html>
