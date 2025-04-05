@@ -1,5 +1,5 @@
 import ollama
-from flask import render_template, request
+from flask import Response, render_template, request, stream_with_context
 from flask_wtf import FlaskForm
 from ollama import ChatResponse
 from wtforms import SelectField, SubmitField, TextAreaField
@@ -16,19 +16,35 @@ class DemoForm(FlaskForm):
     )
 
 
-@bp.route("/", methods=["GET", "POST"])
+@bp.route("/")
 def demo():
-    form = DemoForm(request.form)
-    if request.method == "GET":
-        return render_template("demo.html", form=form)
-    else:
-        response: ChatResponse = ollama.chat(
-            model=form.models.data,
-            messages=[
-                {
-                    "role": "user",
-                    "content": form.prompt.data,
-                },
-            ],
-        )
-        return render_template("demo.html", form=form, response=response.message.content)
+    form = DemoForm()
+    return render_template("demo.html", form=form)
+
+
+@bp.route("/stream", methods=["POST"])
+def streamed_response():
+    model = request.form.get("models")
+    prompt = request.form.get("prompt")
+
+    if not (model and prompt):
+        return "Unknown error"
+
+    response = ollama.chat(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+        stream=True,
+    )
+
+    def generate():
+        for chunk in response:
+            message = chunk.message.content
+            if message:
+                yield message
+
+    return stream_with_context(generate())
