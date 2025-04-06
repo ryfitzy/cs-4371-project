@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Demo Chat Example</title>
+</head>
+<body>
+    <form id="demo-form">
+        <div>{{ form.prompt.label }}</div>
+        <div>{{ form.prompt }}</div>
+        <div>{{ form.models.label }}</div>
+        <div>{{ form.models }}</div>
+        <div>{{ form.submit }}</div>
+    </form>
+
+
+    <pre id="output" style="white-space: pre-wrap;"></pre>
+
+    <script>
+    document.getElementById("demo-form").addEventListener("submit", function (e) {
+        e.preventDefault(); // prevent full form submission
+    
+        const formData = new FormData(this);
+    
+        fetch("{{ url_for('example.streamed_response') }}", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let fullText = "";
+    
+            function read() {
+                reader.read().then(({ done, value }) => {
+                    if (done) return;
+    
+                    const chunk = decoder.decode(value, { stream: true });
+                    fullText += chunk;
+                    document.getElementById("output").textContent = fullText;
+                    read();
+                });
+            }
+    
+            read();
+        });
+    });
+    </script>
+        
+
+</body>
+</html>
