@@ -2,9 +2,9 @@ import dataclasses
 
 import loguru
 from constant.prompt_injection import PromptInjection
+from util.ollama_util import chat_completion
 
 from harness.base_harness import Harness
-from original_HouYi.util.ollama_util import chat_completion
 
 logger = loguru.logger
 

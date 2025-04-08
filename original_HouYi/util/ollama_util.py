@@ -2,7 +2,7 @@
 import ollama
 
 
-def chat_completion(text: str, model: str = "gemma3") -> str:
+def chat_completion(text: str, model: str = "llama3.2") -> str:
     response = ollama.chat(
         model=model,
         messages=[

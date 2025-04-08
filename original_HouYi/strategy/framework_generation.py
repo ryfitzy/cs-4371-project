@@ -1,8 +1,7 @@
 import dataclasses
 
 import loguru
-
-from original_HouYi.util.ollama_util import chat_completion
+from util.ollama_util import chat_completion
 
 logger = loguru.logger
 

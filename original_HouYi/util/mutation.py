@@ -2,7 +2,7 @@
 
 from constant.chromosome import Chromosome
 
-from original_HouYi.util.ollama_util import chat_completion
+from util.ollama_util import chat_completion
 
 
 def llm_mutation_generation(chromosome: Chromosome):
