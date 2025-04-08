@@ -50,7 +50,7 @@ def main():
     application_harness = TranslatorHarness()
 
     # Begin the prompt injection process
-    chromosome = inject(content_manipulation, application_harness) # type: ignore
+    chromosome = inject(content_manipulation, application_harness)  # type: ignore
 
     logger.info("Finish injection")
     if chromosome is None:
