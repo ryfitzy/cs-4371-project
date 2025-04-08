@@ -2,7 +2,6 @@ import json
 import pathlib
 
 import loguru
-import openai
 from constant.prompt_injection import PromptInjection
 from context_infer import ContextInfer
 from harness.base_harness import Harness
@@ -20,9 +19,6 @@ config_file_path = pathlib.Path("./config.json")
 # read config file
 config = json.load(open(config_file_path))
 
-# init openai api key
-openai.api_key = config["openai_key"]
-
 # try times
 try_times = 3
 
@@ -33,9 +29,7 @@ def inject(intention: Intention, application_harness: Harness):
     # generate framework
     for framework_generation_strategy in FRAMEWORK_GENERATION_STRATEGY:
         framework_generation_strategy = framework_generation_strategy()
-        framework = framework_generation_strategy.generate_framework(
-            application_harness.application_document
-        )
+        framework = framework_generation_strategy.generate_framework(application_harness.application_document)
 
         # generate separator
         for separator_generator in SEPARATOR_GENERATOR_LIST:
@@ -49,7 +43,9 @@ def inject(intention: Intention, application_harness: Harness):
                 prompt_injection = PromptInjection(
                     intention=intention,
                 )
-                prompt_injection.prompt = f"{framework}{separator}{prompt_injection.intention.question_prompt}{disruptor}"
+                prompt_injection.prompt = (
+                    f"{framework}{separator}{prompt_injection.intention.question_prompt}{disruptor}"
+                )
                 for _ in range(try_times):
                     response = application_harness.run_harness(prompt_injection)
                     logger.info(f"Application Response: {response}")
@@ -59,9 +55,7 @@ def inject(intention: Intention, application_harness: Harness):
                         return True, prompt_injection.prompt
 
                     # infer context
-                    question = context_infer.infer(
-                        prompt_injection.intention.question_prompt, response
-                    )
+                    question = context_infer.infer(prompt_injection.intention.question_prompt, response)
                     logger.info(f"Context Infer Question: {question}")
                     refined_prompt = context_infer.generate_refine_prompt(
                         framework, separator, disruptor, intention.question_prompt

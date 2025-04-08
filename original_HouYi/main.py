@@ -58,13 +58,9 @@ def main():
 
     # Log the results of the injection
     if chromosome.is_successful:
-        logger.info(
-            f"Success! Injected prompt: {chromosome.framework}{chromosome.separator}{chromosome.disruptor}"
-        )
+        logger.info(f"Success! Injected prompt: {chromosome.framework}{chromosome.separator}{chromosome.disruptor}")
     else:
-        logger.info(
-            f"Failed! Injected prompt: {chromosome.framework}{chromosome.separator}{chromosome.disruptor}"
-        )
+        logger.info(f"Failed! Injected prompt: {chromosome.framework}{chromosome.separator}{chromosome.disruptor}")
     logger.info(f"Fitness Score: {chromosome.fitness_score}")
     logger.info(f"Response: {chromosome.llm_response}")
 

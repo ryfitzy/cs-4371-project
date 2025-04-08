@@ -1,6 +1,6 @@
 import dataclasses
 
-from util.openai_util import completion_with_chatgpt
+from original_HouYi.util.ollama_util import chat_completion
 
 from .base_intention import Intention
 

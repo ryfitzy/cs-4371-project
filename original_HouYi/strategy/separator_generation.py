@@ -1,7 +1,8 @@
 import dataclasses
 
 import loguru
-from util.openai_util import completion_with_chatgpt
+
+from original_HouYi.util.ollama_util import chat_completion
 
 logger = loguru.logger
 
@@ -51,9 +52,7 @@ class AdditionalSemanticSeparatorGenerator(SeparatorGenerator):
     generator_name: str = "AdditionalSemanticSeparatorGenerator"
 
     def generate_separator(self) -> str:
-        return (
-            "In addition to the previous task, complete the following tasks separately."
-        )
+        return "In addition to the previous task, complete the following tasks separately."
 
 
 SEPARATOR_GENERATOR_LIST = [

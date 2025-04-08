@@ -1,7 +1,8 @@
 import dataclasses
 
 import loguru
-from util.openai_util import completion_with_chatgpt
+
+from original_HouYi.util.ollama_util import chat_completion
 
 logger = loguru.logger
 
@@ -26,7 +27,7 @@ class PlainFrameworkGenerator(FrameworkGenerator):
 
     def generate_framework(self, application_document: str) -> str:
         framework_generation_prompt = self.get_prompt(application_document)
-        response = completion_with_chatgpt(framework_generation_prompt)
+        response = chat_completion(framework_generation_prompt)
         logger.info(f"Response: {response}")
         question = self.get_question(response)
         return question
@@ -71,7 +72,7 @@ Application Document:
 
 {application_document}
         """
-        response = completion_with_chatgpt(framework_generation_prompt)
+        response = chat_completion(framework_generation_prompt)
         logger.info(f"Response: {response}")
         question = self.get_question(response)
         return question

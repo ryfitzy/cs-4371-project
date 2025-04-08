@@ -1,7 +1,8 @@
 import dataclasses
 
 import loguru
-from util.openai_util import completion_with_chatgpt
+
+from original_HouYi.util.ollama_util import chat_completion
 
 logger = loguru.logger
 

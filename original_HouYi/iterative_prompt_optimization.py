@@ -54,53 +54,29 @@ class IterativePromptOptimizer:
             logger.info(f"Best Chromosome Separator: {best_chromosome.separator}")
             logger.info(f"Best Chromosome Disruptor: {best_chromosome.disruptor}")
             logger.info(f"Best Chromosome Response: {best_chromosome.llm_response}")
-            logger.info(
-                f"Best Chromosome Fitness Score: {best_chromosome.fitness_score}"
-            )
+            logger.info(f"Best Chromosome Fitness Score: {best_chromosome.fitness_score}")
             return population
 
     def single_framework_prompt_generator(self, framework_generation_strategy) -> str:
         # Generate a single framework prompt using the given strategy
         framework_generation_generator = framework_generation_strategy()
-        framework = framework_generation_generator.generate_framework(
-            self.application_harness.application_document
-        )
+        framework = framework_generation_generator.generate_framework(self.application_harness.application_document)
         return framework
 
     def framework_prompt_generation(self) -> List[str]:
         # Generate multiple framework prompts concurrently
         logger.info("Start to generate framework")
         with ThreadPoolExecutor(max_workers=self.max_concurrent_thread) as executor:
-            framework_list = executor.map(
-                self.single_framework_prompt_generator, FRAMEWORK_GENERATION_STRATEGY
-            )
+            framework_list = executor.map(self.single_framework_prompt_generator, FRAMEWORK_GENERATION_STRATEGY)
             logger.info("Finish generating framework")
             return list(framework_list)
 
-    def combine_chromosome(
-        self, chromosome1: Chromosome, chromosome2: Chromosome
-    ) -> Chromosome:
+    def combine_chromosome(self, chromosome1: Chromosome, chromosome2: Chromosome) -> Chromosome:
         # Combine two chromosomes to create a new one by randomly selecting attributes
-        disruptor = (
-            chromosome1.disruptor
-            if random.choice([True, False])
-            else chromosome2.disruptor
-        )
-        separator = (
-            chromosome1.separator
-            if random.choice([True, False])
-            else chromosome2.separator
-        )
-        framework = (
-            chromosome1.framework
-            if random.choice([True, False])
-            else chromosome2.framework
-        )
-        question_prompt = (
-            chromosome1.question_prompt
-            if random.choice([True, False])
-            else chromosome2.question_prompt
-        )
+        disruptor = chromosome1.disruptor if random.choice([True, False]) else chromosome2.disruptor
+        separator = chromosome1.separator if random.choice([True, False]) else chromosome2.separator
+        framework = chromosome1.framework if random.choice([True, False]) else chromosome2.framework
+        question_prompt = chromosome1.question_prompt if random.choice([True, False]) else chromosome2.question_prompt
         return Chromosome(disruptor, separator, framework, question_prompt)
 
     def single_mutation_chromosome(self, chromosome: Chromosome) -> Chromosome:
@@ -111,9 +87,7 @@ class IterativePromptOptimizer:
         # Mutate the chromosomes in the population concurrently
         with ThreadPoolExecutor(max_workers=self.max_concurrent_thread) as executor:
             logger.info("Start to mutate chromosome")
-            mutated_population = executor.map(
-                self.single_mutation_chromosome, population
-            )
+            mutated_population = executor.map(self.single_mutation_chromosome, population)
             logger.info("Finish mutating chromosome")
             return list(mutated_population)
 
@@ -127,9 +101,7 @@ class IterativePromptOptimizer:
                 prompt_injection.prompt = f"{chromosome.framework}{chromosome.separator}{chromosome.disruptor}"
                 prompt_injection_list.append(prompt_injection)
 
-            response_list = executor.map(
-                self.application_harness.run_harness, prompt_injection_list
-            )
+            response_list = executor.map(self.application_harness.run_harness, prompt_injection_list)
             for idx, response in enumerate(response_list):
                 population[idx].llm_response = response
 
@@ -139,8 +111,7 @@ class IterativePromptOptimizer:
         # Generate initial prompts
         framework_prompt_list = self.framework_prompt_generation()
         separator_list = [
-            separator_generator().generate_separator()
-            for separator_generator in SEPARATOR_GENERATOR_LIST
+            separator_generator().generate_separator() for separator_generator in SEPARATOR_GENERATOR_LIST
         ]
         disruptor_list = [
             disruptor_generator().generate_disruptor() + self.intention.question_prompt
@@ -152,9 +123,7 @@ class IterativePromptOptimizer:
         for framework in framework_prompt_list:
             for separator in separator_list:
                 for disruptor in disruptor_list:
-                    initial_chromosome = Chromosome(
-                        disruptor, separator, framework, self.intention.question_prompt
-                    )
+                    initial_chromosome = Chromosome(disruptor, separator, framework, self.intention.question_prompt)
                     population.append(initial_chromosome)
 
         # Begin optimization iterations
@@ -175,9 +144,7 @@ class IterativePromptOptimizer:
 
                 # Perform mutation on selected chromosomes
                 candidate_mutation_chromosome_list: List[Chromosome] = [
-                    chromosome
-                    for chromosome in population
-                    if random.random() < self.mutation
+                    chromosome for chromosome in population if random.random() < self.mutation
                 ]
                 self.mutation_chromosome(candidate_mutation_chromosome_list)
 

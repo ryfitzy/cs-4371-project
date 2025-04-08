@@ -2,7 +2,7 @@
 
 from constant.chromosome import Chromosome
 
-from util.openai_util import completion_with_chatgpt
+from original_HouYi.util.ollama_util import chat_completion
 
 
 def llm_mutation_generation(chromosome: Chromosome):
@@ -27,7 +27,7 @@ Provide a revised version that captures the essence and core
 message of the original prompt, ensuring clarity and coherence
 in the rephrased content.
     """
-    response = completion_with_chatgpt(mutation_generation_prompt)
+    response = chat_completion(mutation_generation_prompt)
 
     # print(f"FULL RESPONSE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n{response}\n")
     # framework_start, framework_end = (
