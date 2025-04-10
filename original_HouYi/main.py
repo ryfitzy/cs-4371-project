@@ -6,14 +6,16 @@ import pathlib
 import loguru
 
 # import openai
-from constant.chromosome import Chromosome
-from harness.base_harness import Harness
-from harness.demo_translator_harness import TranslatorHarness
-from intention.base_intention import Intention
-from intention.content_manipulation import ContentManipulation
-from iterative_prompt_optimization import IterativePromptOptimizer
+from original_HouYi.constant.chromosome import Chromosome
+from original_HouYi.harness.base_harness import Harness
+from original_HouYi.harness.demo_translator_harness import TranslatorHarness
+from original_HouYi.intention.base_intention import Intention
+from original_HouYi.intention.content_manipulation import ContentManipulation
+from original_HouYi.iterative_prompt_optimization import IterativePromptOptimizer
 
 logger = loguru.logger
+
+logger.add("output.log")
 
 # Load config file from root path
 # config_file_path = pathlib.Path("./config.json")

@@ -3,15 +3,15 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import List
 
 import loguru
-from constant.chromosome import Chromosome
-from constant.prompt_injection import PromptInjection
-from harness.base_harness import Harness
-from intention.base_intention import Intention
-from strategy.disruptor_generation import DISRUPTOR_GENERATOR_LIST
-from strategy.framework_generation import FRAMEWORK_GENERATION_STRATEGY
-from strategy.separator_generation import SEPARATOR_GENERATOR_LIST
-from util.fitness_ranking import llm_fitness_ranking
-from util.mutation import llm_mutation_generation
+from original_HouYi.constant.chromosome import Chromosome
+from original_HouYi.constant.prompt_injection import PromptInjection
+from original_HouYi.harness.base_harness import Harness
+from original_HouYi.intention.base_intention import Intention
+from original_HouYi.strategy.disruptor_generation import DISRUPTOR_GENERATOR_LIST
+from original_HouYi.strategy.framework_generation import FRAMEWORK_GENERATION_STRATEGY
+from original_HouYi.strategy.separator_generation import SEPARATOR_GENERATOR_LIST
+from original_HouYi.util.fitness_ranking import llm_fitness_ranking
+from original_HouYi.util.mutation import llm_mutation_generation
 
 logger = loguru.logger
 

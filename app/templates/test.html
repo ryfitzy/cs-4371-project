@@ -1,0 +1,16 @@
+<html>
+
+<body>
+    <h1>HouYi Output</h1>
+    <pre id="log" style="max-height: 80vh; overflow-y: auto;"></pre>
+    <script>
+        const log = document.getElementById('log');
+        const es = new EventSource("{{ url_for('houyi_test.log_stream') }}");
+        es.onmessage = e => {
+            log.textContent += e.data + '\n';
+            log.scrollTop = log.scrollHeight;
+        };
+    </script>
+</body>
+
+</html>

@@ -7,9 +7,11 @@ def create_app():
 
     # import all blueprints (there shouldn't be too many)
     from app.example import bp as example_bp
+    from app.houyi_test import bp as houyi_bp
 
     # register them
     app.register_blueprint(example_bp)
+    app.register_blueprint(houyi_bp)
 
     # root that just redirects to my example
     @app.route("/")

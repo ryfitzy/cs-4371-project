@@ -1,6 +1,6 @@
 import loguru
-from harness.base_harness import Harness
-from util.ollama_util import chat_completion
+from original_HouYi.harness.base_harness import Harness
+from original_HouYi.util.ollama_util import chat_completion
 
 logger = loguru.logger
 

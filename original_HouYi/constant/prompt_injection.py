@@ -1,6 +1,6 @@
 import dataclasses
 
-from intention.base_intention import Intention
+from original_HouYi.intention.base_intention import Intention
 
 INSERT_INTENTION_HERE = "[INSERT_INTENTION_HERE]"
 

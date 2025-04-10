@@ -1,6 +1,6 @@
 import dataclasses
 
-from constant.prompt_injection import PromptInjection
+from original_HouYi.constant.prompt_injection import PromptInjection
 
 
 @dataclasses.dataclass

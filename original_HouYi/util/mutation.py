@@ -1,8 +1,8 @@
 # MODIFIED BY CS4371
 
-from constant.chromosome import Chromosome
+from original_HouYi.constant.chromosome import Chromosome
 
-from util.ollama_util import chat_completion
+from original_HouYi.util.ollama_util import chat_completion
 
 
 def llm_mutation_generation(chromosome: Chromosome):
