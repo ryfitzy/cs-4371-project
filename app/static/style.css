@@ -121,3 +121,26 @@ body {
 .text {
     white-space: pre-wrap;
 }
+
+.model-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.model-list li {
+    margin-bottom: 10px;
+}
+
+.model-list li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    display: block;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.model-list li.active a,
+.model-list li a:hover {
+    background-color: #00bcd4;
+}

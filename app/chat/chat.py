@@ -1,7 +1,7 @@
-import ollama
-from flask import redirect, url_for, render_template, request, session, jsonify
+from flask import redirect, url_for, request, session, render_template
 from flask_wtf import FlaskForm
 from wtforms import SelectField, TextAreaField, SubmitField
+import ollama
 
 from . import bp
 
@@ -17,34 +17,36 @@ class ChatForm(FlaskForm):
         ]
     )
 
-@bp.route("/", methods=["GET", "POST"])
-def index():
+@bp.route("/", defaults={"selected_model": "mistral"}, methods=["GET", "POST"])
+@bp.route("/<selected_model>", methods=["GET", "POST"])
+def index(selected_model):
     form = ChatForm()
+    form.models.data = selected_model
+
     if 'history' not in session:
         session['history'] = {}
 
     if request.method == "POST" and form.validate_on_submit():
-        model = form.models.data
         user_input = form.prompt.data
-
-        # Initialize model conversation history
-        session['history'].setdefault(model, [])
-        history = session['history'][model]
+        session['history'].setdefault(selected_model, [])
+        history = session['history'][selected_model]
 
         history.append({"role": "user", "content": user_input})
 
-        response = ollama.chat(model=model, messages=history)
-
+        response = ollama.chat(model=selected_model, messages=history)
         if response.message:
             history.append({"role": "assistant", "content": response.message.content})
 
-        session.modified = True  # Important to save session changes
+        session.modified = True
 
-    return render_template("chat.html", form=form, history=session.get('history', {}))
+        return redirect(url_for("chat.index", selected_model=selected_model))
+
+    return render_template("chat.html", form=form, history=session.get('history', {}),
+                           selected_model=selected_model)
 
 @bp.route("/reset/<model>", methods=["POST"])
 def reset_chat(model):
     if 'history' in session and model in session['history']:
         session['history'][model] = []
         session.modified = True
-    return redirect(url_for("chat.index"))
+    return redirect(url_for("chat.index", selected_model=model))
