@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>LLM Messenger</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div class="layout">
         <!-- Sidebar -->
@@ -49,8 +51,9 @@
             <form method="POST" action="{{ url_for('chat.reset_chat', model=selected_model) }}">
                 <button type="submit" class="reset-btn">Reset Chat</button>
             </form>
-            
+
         </div>
     </div>
 </body>
+
 </html>
