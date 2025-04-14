@@ -10,7 +10,13 @@ class ChatForm(FlaskForm):
     prompt = TextAreaField("Your message:")
     submit = SubmitField("Send")
     models = SelectField(
-        "Select model:", choices=[("mistral", "Mistral"), ("gemma3", "Gemma 3"), ("llama3.2", "LLaMA 3.2")]
+        "Select model:",
+        choices=[
+            ("mistral", "Mistral"),
+            ("gemma3", "Gemma 3"),
+            ("llama3.2", "LLaMA 3.2"),
+            ("deepseek-r1", "DeepSeek-R1"),
+        ],
     )
 
 
