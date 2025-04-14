@@ -39,7 +39,7 @@ Sabrina Khan
     * [Mistral](https://ollama.com/library/mistral): 4.1 GB - `ollama pull mistral`
     * [Gemma 3](https://ollama.com/library/gemma3): 3.3 GB - `ollama pull gemma3`
     * [Llama 3.2](https://ollama.com/library/llama3.2): 2.0 GB - `ollama pull llama3.2`
-    * [DeepSeek-R1] (https://ollama.com/library/deepseek-r1:7b) : 4.7 GB - `ollama pull deepseek-r1:7b`
+    * [DeepSeek-R1](https://ollama.com/library/deepseek-r1:7b): 4.7 GB - `ollama pull deepseek-r1:7b`
 
 ### Running
 
