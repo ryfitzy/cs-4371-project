@@ -2,10 +2,10 @@
 Prompt injection attack against LLM-integrated applications
 
 ## Members
-Colin Crippen
-Joseph Dippel
-Ryan Fitzgerald
-Will Jefts
+Colin Crippen,
+Joseph Dippel,
+Ryan Fitzgerald,
+Will Jefts and
 Sabrina Khan
 
 
