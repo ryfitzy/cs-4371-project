@@ -19,6 +19,7 @@ class ChatForm(FlaskForm):
         choices=[
             ("", "None"),
             ("leakage", "Prompt Leakage"),
+            ("manipulation", "Content Manipulation"),
         ],
     )
 
