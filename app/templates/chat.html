@@ -28,10 +28,20 @@
             <!-- Chat Form -->
             <form method="POST">
                 {{ form.hidden_tag() }}
+
+                <!-- Injection Dropdown -->
+                <div class="form-group">
+                    {{ form.attacks.label }}<br>
+                    {{ form.attacks(class="form-control") }}
+                </div>
+
+                <!-- Message Box -->
                 <div class="form-group">
                     {{ form.prompt.label }}<br>
                     {{ form.prompt(rows=3, class="form-control") }}
                 </div>
+
+                <!-- Submit Button -->
                 <div class="form-group">
                     {{ form.submit(class="btn") }}
                 </div>

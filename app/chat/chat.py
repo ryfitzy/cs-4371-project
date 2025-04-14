@@ -2,6 +2,7 @@ import ollama
 from flask import redirect, render_template, request, session, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField, TextAreaField
+from app.prompt_injections import ATTACKS  # top of file
 
 from . import bp
 
@@ -10,9 +11,16 @@ class ChatForm(FlaskForm):
     prompt = TextAreaField("Your message:")
     submit = SubmitField("Send")
     models = SelectField(
-        "Select model:", choices=[("mistral", "Mistral"), ("gemma3", "Gemma 3"), ("llama3.2", "LLaMA 3.2")]
+        "Select model:",
+        choices=[("mistral", "Mistral"), ("gemma3", "Gemma 3"), ("llama3.2", "LLaMA 3.2")],
     )
-
+    attacks = SelectField(
+        "Prompt Injection:",
+        choices=[
+            ("", "None"),
+            ("leakage", "Prompt Leakage"),
+        ],
+    )
 
 @bp.route("/", defaults={"selected_model": "mistral"}, methods=["GET", "POST"])
 @bp.route("/<selected_model>", methods=["GET", "POST"])
@@ -24,7 +32,12 @@ def index(selected_model):
         session["history"] = {}
 
     if request.method == "POST" and form.validate_on_submit():
-        user_input = form.prompt.data
+        attack_type = form.attacks.data
+        if attack_type and attack_type in ATTACKS:
+            user_input = ATTACKS[attack_type]["harness"]
+        else:
+            user_input = form.prompt.data
+
         session["history"].setdefault(selected_model, [])
         history = session["history"][selected_model]
 
