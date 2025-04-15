@@ -44,12 +44,12 @@
                 </div>
                 {% endfor %}
             </div>
-
+            </form>
+            
             <!-- Reset Button -->
             <form method="POST" action="{{ url_for('chat.reset_chat', model=selected_model) }}">
                 <button type="submit" class="reset-btn">Reset Chat</button>
             </form>
-
         </div>
     </div>
 </body>
