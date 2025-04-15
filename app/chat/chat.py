@@ -1,21 +1,29 @@
-import ollama
-from flask import redirect, render_template, request, session, url_for
+import importlib
+
+from flask import redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
-from wtforms import SelectField, SubmitField, TextAreaField
+from wtforms import SelectField
+
+from app.prompt_injections import ATTACKS
 
 from . import bp
 
+model_histories = {}  # In-memory chat history
+
 
 class ChatForm(FlaskForm):
-    prompt = TextAreaField("Your message:")
-    submit = SubmitField("Send")
     models = SelectField(
         "Select model:",
+        choices=[("mistral", "Mistral"), ("gemma3", "Gemma 3"), ("llama3.2", "LLaMA 3.2")],
+    )
+    attacks = SelectField(
+        "Prompt Injection:",
         choices=[
-            ("mistral", "Mistral"),
-            ("gemma3", "Gemma 3"),
-            ("llama3.2", "LLaMA 3.2"),
-            ("deepseek-r1", "DeepSeek-R1"),
+            ("", "None"),
+            ("leakage", "Prompt Leakage"),
+            ("manipulation", "Content Manipulation"),
+            ("info_gathering", "Information Gathering"),
+            ("spam", "Spam Generation"),
         ],
     )
 
@@ -26,30 +34,32 @@ def index(selected_model):
     form = ChatForm()
     form.models.data = selected_model
 
-    if "history" not in session:
-        session["history"] = {}
+    model_histories.setdefault(selected_model, [])
 
-    if request.method == "POST" and form.validate_on_submit():
-        user_input = form.prompt.data
-        session["history"].setdefault(selected_model, [])
-        history = session["history"][selected_model]
+    if request.method == "POST":
+        if "attacks" in request.form:
+            attack_type = form.attacks.data or request.form.get("attacks")
+            if attack_type in ATTACKS:
+                try:
+                    # Dynamically import the corresponding attack module
+                    module_path = f"app.prompt_injections.{attack_type}"
+                    attack_module = importlib.import_module(module_path)
 
-        history.append({"role": "user", "content": user_input})
+                    # Run the attack simulation
+                    simulated_history = attack_module.run_attack(selected_model)
 
-        response = ollama.chat(model=selected_model, messages=history)
-        if response.message:
-            history.append({"role": "assistant", "content": response.message.content})
+                    # Overwrite history for clean display (or use += if you want to append)
+                    model_histories[selected_model] = simulated_history
 
-        session.modified = True
+                except (ImportError, AttributeError) as e:
+                    print(f"Failed to run attack '{attack_type}': {e}")
 
         return redirect(url_for("chat.index", selected_model=selected_model))
 
-    return render_template("chat.html", form=form, history=session.get("history", {}), selected_model=selected_model)
+    return render_template("chat.html", form=form, history=model_histories, selected_model=selected_model)
 
 
 @bp.route("/reset/<model>", methods=["POST"])
 def reset_chat(model):
-    if "history" in session and model in session["history"]:
-        session["history"][model] = []
-        session.modified = True
+    model_histories[model] = []
     return redirect(url_for("chat.index", selected_model=model))
