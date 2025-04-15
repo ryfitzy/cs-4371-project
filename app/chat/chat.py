@@ -1,8 +1,11 @@
 import importlib
+
 from flask import redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField
+
 from app.prompt_injections import ATTACKS
+
 from . import bp
 
 model_histories = {}  # In-memory chat history
@@ -32,7 +35,6 @@ def index(selected_model):
     form.models.data = selected_model
 
     model_histories.setdefault(selected_model, [])
-    history = model_histories[selected_model]
 
     if request.method == "POST":
         if "attacks" in request.form:
