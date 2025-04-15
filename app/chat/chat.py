@@ -20,6 +20,8 @@ class ChatForm(FlaskForm):
             ("", "None"),
             ("leakage", "Prompt Leakage"),
             ("manipulation", "Content Manipulation"),
+            ("info_gathering", "Information Gathering"),
+            ("spam", "Spam Generation"),
         ],
     )
 
