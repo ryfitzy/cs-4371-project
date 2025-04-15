@@ -8,8 +8,6 @@ from . import bp
 
 
 class ChatForm(FlaskForm):
-    prompt = TextAreaField("Your message:")
-    submit = SubmitField("Send")
     models = SelectField(
         "Select model:",
         choices=[("mistral", "Mistral"), ("gemma3", "Gemma 3"), ("llama3.2", "LLaMA 3.2")],
@@ -24,6 +22,7 @@ class ChatForm(FlaskForm):
             ("spam", "Spam Generation"),
         ],
     )
+
 
 @bp.route("/", defaults={"selected_model": "mistral"}, methods=["GET", "POST"])
 @bp.route("/<selected_model>", methods=["GET", "POST"])

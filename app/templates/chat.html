@@ -32,20 +32,8 @@
                 <!-- Injection Dropdown -->
                 <div class="form-group">
                     {{ form.attacks.label }}<br>
-                    {{ form.attacks(class="form-control") }}
+                    {{ form.attacks(class="form-control", onchange="this.form.submit()") }}
                 </div>
-
-                <!-- Message Box -->
-                <div class="form-group">
-                    {{ form.prompt.label }}<br>
-                    {{ form.prompt(rows=3, class="form-control") }}
-                </div>
-
-                <!-- Submit Button -->
-                <div class="form-group">
-                    {{ form.submit(class="btn") }}
-                </div>
-            </form>
 
             <!-- Chat Messages -->
             <div class="chat-box">
