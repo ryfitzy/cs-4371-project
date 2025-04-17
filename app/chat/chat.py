@@ -1,6 +1,7 @@
 import importlib
+import json
 
-from flask import redirect, render_template, request, url_for
+from flask import Response, redirect, render_template, request, stream_with_context, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField
 
@@ -57,6 +58,25 @@ def index(selected_model):
         return redirect(url_for("chat.index", selected_model=selected_model))
 
     return render_template("chat.html", form=form, history=model_histories, selected_model=selected_model)
+
+
+@bp.route("/stream_attack")
+def stream_attack():
+    selected_model = request.args.get("model")
+    attack_type = request.args.get("attack_type")
+
+    def generate():
+        try:
+            module_path = f"app.prompt_injections.{attack_type}"
+            attack_module = importlib.import_module(module_path)
+
+            for update in attack_module.run_attack(selected_model):
+                yield f"data: {json.dumps(update)}\n\n"
+
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+
+    return Response(stream_with_context(generate()), mimetype="text/event-stream")
 
 
 @bp.route("/reset/<model>", methods=["POST"])

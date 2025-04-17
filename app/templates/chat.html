@@ -32,26 +32,80 @@
                 <!-- Injection Dropdown -->
                 <div class="form-group">
                     {{ form.attacks.label }}<br>
-                    {{ form.attacks(class="form-control", onchange="this.form.submit()") }}
+                    {{ form.attacks(class="form-control", onchange="startAttack()") }}
                 </div>
 
-            <!-- Chat Messages -->
-            <div class="chat-box">
-                {% for msg in history.get(selected_model, []) %}
-                <div class="message {{ msg.role }}">
-                    <div class="sender">{{ msg.role.title() }}</div>
-                    <div class="text">{{ msg.content }}</div>
+                <!-- Chat Messages -->
+                <div class="chat-box" id="chat-box">
+                    {% for msg in history.get(selected_model, []) %}
+                    <div class="message {{ msg.role }}">
+                        <div class="sender">{{ msg.role.title() }}</div>
+                        <div class="text">{{ msg.content }}</div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
             </form>
-            
+
             <!-- Reset Button -->
             <form method="POST" action="{{ url_for('chat.reset_chat', model=selected_model) }}">
                 <button type="submit" class="reset-btn">Reset Chat</button>
             </form>
         </div>
     </div>
+
+    <script>
+        function startAttack() {
+            const model = "{{ selected_model }}";
+            const attackSelect = document.querySelector('select[name="attacks"]');
+            const attackType = attackSelect.value;
+            const chatBox = document.getElementById("chat-box");
+
+            // Clear previous chat messages
+            chatBox.innerHTML = "";
+
+            if (!attackType) {
+                return; // No attack selected, don't stream
+            }
+
+            // Build the stream URL dynamically using Flask's url_for
+            const baseUrl = "{{ url_for('chat.stream_attack') }}";  // No args passed here
+            const fullUrl = `${baseUrl}?model=${encodeURIComponent(model)}&attack_type=${encodeURIComponent(attackType)}`;
+            const evtSource = new EventSource(fullUrl);
+
+            evtSource.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+
+                if (data.error) {
+                    console.error("Error:", data.error);
+                    evtSource.close();
+                    return;
+                }
+
+                if (data.user && data.assistant) {
+                    const userDiv = document.createElement("div");
+                    userDiv.className = "message user";
+                    userDiv.innerHTML = `<div class="sender">User</div><div class="text">${data.user}</div>`;
+                    chatBox.appendChild(userDiv);
+
+                    const assistantDiv = document.createElement("div");
+                    assistantDiv.className = "message assistant";
+                    assistantDiv.innerHTML = `<div class="sender">Assistant</div><div class="text">${data.assistant}</div>`;
+                    chatBox.appendChild(assistantDiv);
+
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+
+                if (data.done) {
+                    evtSource.close();
+                    const status = data.injection_successful ? "✅ Injection successful!" : "🛡️ Injection failed";
+                    const statusDiv = document.createElement("div");
+                    statusDiv.className = "message system";
+                    statusDiv.innerHTML = `<div class="sender">System</div><div class="text">${status}</div>`;
+                    chatBox.appendChild(statusDiv);
+                }
+            };
+        }
+    </script>
 </body>
 
 </html>
