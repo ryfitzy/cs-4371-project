@@ -70,8 +70,16 @@ def stream_attack():
             module_path = f"app.prompt_injections.{attack_type}"
             attack_module = importlib.import_module(module_path)
 
+            history: list[dict[str, str | bool]] = []
+
             for update in attack_module.run_attack(selected_model):
+                for role in ["user", "assistant", "system"]:
+                    if role in update:
+                        history.append({"role": role, "content": update[role]})
+
                 yield f"data: {json.dumps(update)}\n\n"
+
+            model_histories[selected_model] = history
 
         except Exception as e:
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
