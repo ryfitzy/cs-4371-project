@@ -1,3 +1,5 @@
+from .ethical_violation import HARNESS as ETHICAL_HARNESS
+from .ethical_violation import INTENTION as ETHICAL_INTENTION
 from .info_gathering import HARNESS as INFO_HARNESS
 from .info_gathering import INTENTION as INFO_INTENTION
 from .leakage import HARNESS as LEAK_HARNESS
@@ -13,4 +15,5 @@ ATTACKS = {
     "manipulation": {"intention": MANIP_INTENTION, "harness": MANIP_HARNESS},
     "info_gathering": {"intention": INFO_INTENTION, "harness": INFO_HARNESS},
     "spam": {"intention": SPAM_INTENTION, "harness": SPAM_HARNESS},
+    "ethical_violation": {"intention": ETHICAL_INTENTION, "harness": ETHICAL_HARNESS},
 }
