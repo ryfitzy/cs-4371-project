@@ -59,7 +59,6 @@ def run_attack(model: str):
 
         if answer:
             history.append({"role": "assistant", "content": answer})
-
             yield {"assistant": answer, "done": False}
 
             if badge_number in answer:
