@@ -5,8 +5,6 @@ from flask import Response, redirect, render_template, request, stream_with_cont
 from flask_wtf import FlaskForm
 from wtforms import SelectField
 
-from app.prompt_injections import ATTACKS
-
 from . import bp
 
 model_histories = {}  # In-memory chat history
