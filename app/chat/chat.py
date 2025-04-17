@@ -25,6 +25,7 @@ class ChatForm(FlaskForm):
             ("manipulation", "Content Manipulation"),
             ("info_gathering", "Information Gathering"),
             ("spam", "Spam Generation"),
+            ("ethical_violation", "Ethical Violation"),
         ],
     )
 
